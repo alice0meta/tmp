@@ -1,0 +1,25 @@
+express ← require('express')
+
+server ← express()
+	.use((req,res,next)=>{ // enable CORS
+		res.header('Access-Control-Allow-Origin','*')
+		res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept')
+		next() })
+	.use(express.static('public'))
+	.get('/',(req,res)=>{
+		res.sendFile(__dirname+'/views/index.html')
+		})
+	.get('/dreams',(req,res)=>{
+		res.send(dreams)
+		})
+	.post('/dreams',(req,res)=>{
+		dreams.push(req.query.dream)
+		res.sendStatus(200)
+		})
+	.listen(process.env.PORT,()=> cn.log('Your app is listening on port '+server.address().port) )
+
+dreams ← [
+	'Find and count some sheep',
+	'Climb a really tall mountain',
+	'Wash the dishes',
+	]
